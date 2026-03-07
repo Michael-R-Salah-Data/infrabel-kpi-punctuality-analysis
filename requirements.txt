@@ -13,7 +13,7 @@ fonttools==4.61.1
 geopandas==1.1.2
 greenlet==3.3.2
 idna==3.11
--e git+https://github.com/Michael-R-Salah-Data/infrabel-kpi-punctuality-analysis.git@1b362aa652dbf62470ca05d97e6181e754953119#egg=infrabel_punctuality
+-e git+https://github.com/Michael-R-Salah-Data/infrabel-kpi-punctuality-analysis.git@d7927d5e1d17fb79562a1e5624a121b1a501b4f9#egg=infrabel_punctuality
 ipykernel==7.2.0
 ipython==9.10.0
 ipython_pygments_lexers==1.1.1
@@ -30,7 +30,6 @@ openpyxl==3.1.5
 packaging==26.0
 pandas==3.0.1
 parso==0.8.6
-pathlib==1.0.1
 pillow==12.1.1
 platformdirs==4.9.2
 plotly==6.6.0
