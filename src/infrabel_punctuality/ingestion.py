@@ -7,7 +7,7 @@ def prepare_download(datasets, output_dir="data/raw/", file_type="parquet"):
     """
     Prépare les paramètres de téléchargements en itérant sur un dictionnaire de datasets {nom : url}.
     Permet de choisir le type de fichiers à télécharger et crée le path du output.
-    Gère les différences "Windows vs Linux" entre \ et / dans le path/
+    Utilise pathlib pour gérer les différences de path entre Windows et Linux.
 
     Arguments: 
         datasets (dict): dictionnaire {dataset_name : dataset_url} des datasets à télécharger.
@@ -199,11 +199,11 @@ def run_download(datasets,
                 if file_name is not None:
                     downloaded_datasets.append(file_name)
                 else:
-                    failed_downloads.append(file_name)
+                    failed_downloads.append(name)
 
             except Exception as e:
-                tqdm.write(f"Download failed for {file_name} : {e}")
-                failed_downloads.append(file_name)
+                tqdm.write(f"Download failed for {name} : {e}")
+                failed_downloads.append(name)
             
             finally:
                 pbar.update(1)
