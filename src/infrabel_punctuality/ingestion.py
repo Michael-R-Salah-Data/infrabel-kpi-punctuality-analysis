@@ -199,11 +199,11 @@ def run_download(datasets,
                 if file_name is not None:
                     downloaded_datasets.append(file_name)
                 else:
-                    failed_downloads.append(file_name)
+                    failed_downloads.append(name)
 
             except Exception as e:
-                tqdm.write(f"Download failed for {file_name} : {e}")
-                failed_downloads.append(file_name)
+                tqdm.write(f"Download failed for {name} : {e}")
+                failed_downloads.append(name)
             
             finally:
                 pbar.update(1)
