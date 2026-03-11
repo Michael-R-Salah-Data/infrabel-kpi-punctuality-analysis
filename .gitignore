@@ -209,5 +209,6 @@ __marimo__/
 
 *.code-workspace
 
-data/
+data/**/*
+!data/**/
 !data/**/.gitkeep
