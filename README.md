@@ -1,5 +1,15 @@
 # infrabel-kpi-punctuality-analysis
 
+• Sources: Infrabel Open Data + complementary public datasets (Statbel, SNCB)
+• Objective: analyze punctuality trends across the Belgian railway network and challenge the official metric by proposing alternative metrics
+• Stack: Python (pandas, GeoPandas, SQLAlchemy) • SQL Server / T-SQL • Power BI (DAX)
+• Architecture:
+  - Data pipeline orchestrated with Jupyter notebooks
+  - Custom Python package for ingestion, transformation and geospatial preparation
+  - Structured data flow (raw → intermediate → processed)
+  - SQL Server data warehouse (star schema)
+  - Power BI dashboards
+
 **Documentation is currently being expanded**
 🚧 This project is currently being refactored to adopt professional data engineering standards.
 
