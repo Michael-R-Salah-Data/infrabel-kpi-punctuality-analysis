@@ -20,13 +20,13 @@ def prepare_download(datasets, output_dir="data/raw/", file_type="parquet"):
     """
     datasets_list = []
     # nettoyage automatique : enlever un éventuel point dans file_type et tout mettre en minuscules 
-    file_type_cleaned = file_type.lstrip(".").lower()
+    file_type = file_type.lstrip(".").lower()
     dir_path = Path(output_dir)
 
     for dataset_name, dataset_url in datasets.items():
-        full_file_name = f"{dataset_name}.{file_type_cleaned}"
+        full_file_name = f"{dataset_name}.{file_type}"
         output_path = dir_path / full_file_name
-        datasets_list.append((dataset_url, str(output_path), dataset_name, file_type_cleaned, output_dir))
+        datasets_list.append((dataset_url, str(output_path), dataset_name, file_type, output_dir))
     return datasets_list
 
 
@@ -78,7 +78,14 @@ def check_output_dir(output_dir):
             raise SystemExit("Téléchargement annulé par l'utilisateur. Vérifier le chemin du répertoire de destination")
             
 
-def download_dataset(dataset_url, output_path, dataset_name, file_type_cleaned, chunk_size=10240):
+def download_dataset(
+        dataset_url, 
+        output_path, 
+        dataset_name, 
+        file_type,
+        referer=None, 
+        chunk_size=10240
+        ):
     # idée : si l'utilisateur le précise, il peut aussi modifier les deux valeurs du timeout du request
    
     """
@@ -87,6 +94,7 @@ def download_dataset(dataset_url, output_path, dataset_name, file_type_cleaned, 
         - Chunke le dataset pour gérer les gros volumes
         - Contrôle le temps de connection au serveur et le temps de réception de chaque chunk
         - Écris un fichier contenant le dataset téléchargé dans le répertoire de destination
+        - Crée une session, un User-Agent et un referer pour gérer les téléchargements depuis les sessions dynamiques
 
     Arguments: 
         Généralement fournis par la fonction orchestratrice run_download():
@@ -102,11 +110,28 @@ def download_dataset(dataset_url, output_path, dataset_name, file_type_cleaned, 
     Side effects:
         Écris le contenu téléchargé dans un fichier créé dans le répertoire de destination.
     """
+    # Créer une session pour mémoriser les éventuels cookies
+    session = requests.Session()
+
+    # Définir des headers et imiter le comportement d'un navigateur 
+    session.headers.update({
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'Accept' : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7'
+    })
+
     print(f"Début du téléchargement : {dataset_name}\n")
+
     try: 
+        # si referer, demander un cookie de session
+        if referer: 
+            session.headers.update({'Referer' : referer})
+            session.get(referer, timeout=15)
+            print(f"Session initialisée via le referer pour : {dataset_name}\n")
+            
         # téléchager le dataset et mettre un "timer" pour contrôler le temps de connection au serveur (10)
             # et le temps de réception entre chaque chunk (120)
-        response = requests.get(dataset_url, stream=True, timeout=(10, 120))
+        response = session.get(dataset_url, stream=True, timeout=(10, 120))
         response.raise_for_status()
            
         # chunker le dataset pour gérer sa taille
@@ -116,14 +141,21 @@ def download_dataset(dataset_url, output_path, dataset_name, file_type_cleaned, 
                 if chunk:
                     f.write(chunk)
             tqdm.write(f"{dataset_name} téléchargé dans {output_path}")
-            file_name = f"{dataset_name}.{file_type_cleaned}"
+            file_name = f"{dataset_name}.{file_type}"
             return file_name
     
     except requests.exceptions.RequestException as error: 
             tqdm.write(f"Erreur lors du téléchargement de {dataset_name} : {error}")
 
+    finally:
+        session.close()
 
-def generate_file_registry(downloaded_datasets, output_dir, registry_name="manifest.txt"):
+
+def generate_file_registry(
+        downloaded_datasets, 
+        output_dir, 
+        registry_name="manifest.txt"
+        ):
     """
     Exporte la liste des fichiers téléchargés sous la forme d'un fichier manifest.txt créé dans le répertoire de destination
         
@@ -146,10 +178,13 @@ def generate_file_registry(downloaded_datasets, output_dir, registry_name="manif
     registry_path.write_text(content, encoding="utf-8")
 
 
-def run_download(datasets, 
-                 output_dir="data/raw/", 
-                 file_type="parquet",  
-                 registry_name="manifest.txt"):
+def run_download(
+        datasets, 
+        output_dir="data/raw/", 
+        file_type="parquet",  
+        registry_name="manifest.txt",
+        referer=None
+        ):
     """
     Orchestre les quatre fonctions précédentes en les appelant dans la bonne séquence, 
         en collectant les résultats retournés par une fonction et en les passant en paramètres de la fonction suivante.
@@ -158,7 +193,7 @@ def run_download(datasets,
     Arguments: 
         datasets (dict{str : str}) : dictionnaire contenant la liste des datasets à télécharger {name : url}
         output_dir (str) : le chemin vers le répertoire de destination. Défaut : "data/raw/".
-        file_type (str) : le format de fichiers des datasets téléchargés (parquet, csv, xlxs)? Défaut : "parquet".
+        file_type (str) : le format de fichiers des datasets téléchargés (parquet, csv, xlsx)? Défaut : "parquet".
         registry_name (str) : nom du fichier qui contiendra le manifeste des téléchargements. Défaut : "manifest.txt".
 
     Returns:
@@ -195,7 +230,7 @@ def run_download(datasets,
             ) as pbar:  
         for url, path, name, ext, _ in prepared_datasets:
             try:
-                file_name = download_dataset(url, path, name, ext)
+                file_name = download_dataset(url, path, name, ext, referer=referer)
                 if file_name is not None:
                     downloaded_datasets.append(file_name)
                 else:
