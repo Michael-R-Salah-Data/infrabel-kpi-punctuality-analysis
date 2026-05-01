@@ -8,6 +8,7 @@ setup(
     python_requires=">=3.10",
     install_requires=[
         "requests",
-        "tqdm"
+        "tqdm",
+        "pandas"
     ]
 )
