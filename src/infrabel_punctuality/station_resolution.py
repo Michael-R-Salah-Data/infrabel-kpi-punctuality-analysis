@@ -427,3 +427,76 @@ def find_ptcarid(
         ).dropna(subset=[id_column]).drop_duplicates(subset=[id_column], keep="first")
 
     return  stations_with_id, df_orphans
+
+
+def find_population_values(
+        df_population: pd.DataFrame,
+        df_municipalities: pd.DataFrame,
+        list_entries: list[str]
+        ):
+    """
+    Retrieve and aggregate population values for newly merged municipalities that are unmatched in 
+    the population DataFrame.
+    For a given list of new municipality names, this function looks up their REFNIS code in the 
+    municipalities DataFrame, splits the name to identify the old constituent municipalities, 
+    then aggregates their population and area values to compute the population density of the 
+    new municipality.
+    This function is designed to handle municipalities resulting from recent fusions whose names 
+    are composed of their old constituent names, separated by a hyphen (e.g. 'Nazareth-De Pinte'). 
+    It will not work correctly for municipalities whose new name has no similarity with the old ones 
+    (e.g. 'Pajottegem').
+
+    Note:
+    This is an ad hoc function tailored specifically for the DataFrames produced
+    by this workflow, built on top of Statbel datasets. It relies on hardcoded
+    column names and dataset-specific assumptions, and is therefore not portable
+    to other projects or data sources.
+
+    Args:
+        df_population (pd.DataFrame): The population DataFrame containing the old
+            municipality entries. Must contain the following columns: 'place_of_residence',
+            'population', 'area'.
+        df_municipalities (pd.DataFrame): The municipalities DataFrame used to retrieve
+            REFNIS codes. Must contain the following columns: 'Communes', 'CD_REFNIS_mun'.
+        list_entries (list[str]): List of new municipality names to process.
+
+    Returns:
+        pd.DataFrame: A DataFrame containing one row per new municipality, with the
+            following columns: 'refnis', 'place_of_residence', 'population', 'area',
+            'Population_density'.
+
+    Raises:
+        TypeError: If df_population or df_municipalities are not pandas DataFrames,
+            or if list_entries is not a list.
+"""
+    if not isinstance(df_population, pd.DataFrame):
+        raise TypeError(f"Expected a pandas DataFrame for df_population, got {type(df_population).__name__}")
+    if not isinstance(df_municipalities, pd.DataFrame):
+        raise TypeError(f"Expected a pandas DataFrame for df_municipalities, got {type(df_municipalities).__name__}")
+    if not isinstance(list_entries, list):
+        raise TypeError(f"Expected a list for list_entries, got {type(list_entries).__name__}")
+    
+    rows = []
+
+    for name in list_entries:
+        refnis = df_municipalities["CD_REFNIS_mun"].loc[df_municipalities["Communes"] == name].values[0]
+        parts = name.split("-")
+        entry_composantes = df_population.loc[df_population["place_of_residence"].isin(parts)]
+        population = entry_composantes["population"].sum()
+        area = entry_composantes["area"].sum()
+        population_density = population / area if area != 0 else None
+
+        rows.append(
+            {
+                "refnis" : refnis,
+                "place_of_residence" : name,
+                "population" : population,
+                "area" : area,
+                "Population_density" : population_density
+            }
+        )
+
+    new_population_values = pd.DataFrame(rows)
+
+    return new_population_values
+           
