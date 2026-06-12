@@ -36,10 +36,11 @@ Results are analyzed by date, time of day, station, and train service, and visua
 | Phase | Status |
 |---|---|
 | Data collection (ingestion notebooks) | ✅ Complete |
-| Dimension building — `DimDate` & `DimTime` (SQL) | ✅ Complete |
+| Dimension building - `DimDate` & `DimTime` (SQL) | ✅ Complete |
 | Data profiling & cleaning | ✅ Complete |
+| Dimension building - `Dim_Station` & `Dim_Train_Service` | ✅ Complete
 | `infrabel_punctuality` package | 🔄 Mostly complete |
-| Dimension building — remaining dimensions & Fact Table | 🔄 · 03-01 `DimStation` in progress |
+| Fact Table building | 🔄 · 03-03 `Fact_Punctuality` in progress |
 | SQL Server loading | ⏳ Pending |
 | Power BI dashboards | ⏳ Pending |
 
@@ -158,9 +159,9 @@ H --> I
 | 02-04 | *Profiling & Cleaning - Punctuality* | ✅ |
 | 02-05 | *Handling Missing Values in the RELATION_DIRECTION column - Punctuality* | ✅ |
 | 02-06 | *Profiling & Enrichment - SNCB Passengers* | ✅ |
-| 03-01 | *Building Dimension - Station* | 🔄 |
-| 03-02 | *Building Dimension - Train Service* | ⏳ |
-| 03-03 | *Building Fact Table - Punctuality* | ⏳ |
+| 03-01 | *Building Dimension - Station* | ✅ |
+| 03-02 | *Building Dimension - Train Service* | ✅ |
+| 03-03 | *Building Fact Table - Punctuality* | 🔄 |
 | 04-01 | *Loading Dimensions to SQL Server* | ⏳ |
 | 04-02 | *Loading Fact Table to SQL Server* | ⏳ |
 
