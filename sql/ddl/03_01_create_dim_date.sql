@@ -1,11 +1,11 @@
---- Execute this script within the [infrabel_punctuality_dwh] database
+-- Execute this script within the [infrabel_punctuality_dwh] database
 
 
 SET DATEFIRST 1
 
-DROP TABLE IF EXISTS dim.Date;
+DROP TABLE IF EXISTS dim.Dim_Date;
 
-CREATE TABLE dim.Date (
+CREATE TABLE dim.Dim_Date (
     DateId INT PRIMARY KEY,             
     Year INT NOT NULL,
     Month INT NOT NULL,                
@@ -38,7 +38,7 @@ BEGIN
             WHEN 4 THEN 'Q4'
         END;
 
-    INSERT INTO dim.Date (
+    INSERT INTO dim.Dim_Date (
 		DateId,
 		[Year],
 		[Month],
