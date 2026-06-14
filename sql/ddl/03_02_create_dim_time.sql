@@ -1,9 +1,9 @@
---- Execute this script within the [infrabel_punctuality_dwh] database
+-- Execute this script within the [infrabel_punctuality_dwh] database
 
 
-DROP TABLE IF EXISTS dim.Time;
+DROP TABLE IF EXISTS dim.Dim_Time;
 
-CREATE TABLE dim.Time (
+CREATE TABLE dim.Dim_Time (
     TimeId INT PRIMARY KEY,
     Time TIME NOT NULL,     
     Hour INT NOT NULL,
@@ -33,7 +33,7 @@ BEGIN
     BEGIN
         SET @TimeId = (@Hour * 100) + @Minute;
 
-        INSERT INTO dim.Time(TimeId, [Time], [Hour], [Minute], TimePeriod, IsPeakHour)
+        INSERT INTO dim.Dim_Time(TimeId, [Time], [Hour], [Minute], TimePeriod, IsPeakHour)
 
         VALUES (
         @TimeId,
