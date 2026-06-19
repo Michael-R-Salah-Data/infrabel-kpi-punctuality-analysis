@@ -1,12 +1,12 @@
 -- Execute this script within the [infrabel_punctuality_dwh] database
-
+-- Day of Week 1 sets on Monday
 
 SET DATEFIRST 1
 
 DROP TABLE IF EXISTS dim.Dim_Date;
 
 CREATE TABLE dim.Dim_Date (
-    DateId INT PRIMARY KEY,             
+    DateID INT NOT NULL,             
     Year INT NOT NULL,
     Month INT NOT NULL,                
     MonthName NVARCHAR(20) NOT NULL,   
@@ -17,7 +17,8 @@ CREATE TABLE dim.Dim_Date (
     QuarterName NVARCHAR(20) NOT NULL,
     WeekOfYear INT NOT NULL,
     IsWeekend BIT NOT NULL,
-    IsHoliday BIT NOT NULL
+    IsHoliday BIT NOT NULL,
+    CONSTRAINT PK_Date PRIMARY KEY (DateID)
 );
 
 DECLARE @StartDate DATE = '2020-01-01';
@@ -39,7 +40,7 @@ BEGIN
         END;
 
     INSERT INTO dim.Dim_Date (
-		DateId,
+		DateID,
 		[Year],
 		[Month],
 		[MonthName],
