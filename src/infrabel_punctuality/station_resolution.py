@@ -447,10 +447,9 @@ def find_population_values(
     (e.g. 'Pajottegem').
 
     Note:
-    This is an ad hoc function tailored specifically for the DataFrames produced
-    by this workflow, built on top of Statbel datasets. It relies on hardcoded
-    column names and dataset-specific assumptions, and is therefore not portable
-    to other projects or data sources.
+    This is an ad hoc function tailored specifically for the DataFrames produced by this workflow, 
+    built on top of Statbel datasets. It relies on hardcoded column names and dataset-specific assumptions, 
+    and is therefore not portable to other projects or data sources.
 
     Args:
         df_population (pd.DataFrame): The population DataFrame containing the old
