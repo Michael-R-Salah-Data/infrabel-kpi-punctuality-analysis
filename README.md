@@ -31,17 +31,15 @@ Results are analyzed by date, time of day, station, and train service, and visua
 
 ## Project Status
 
-🚧 **Originally developed as a data analyst training capstone project, this project is being refactored to meet professional data engineering standards.**
+🚧 **Originally developed as a data analyst training capstone project, this project is being refactored to meet professional data standards.**
 
 | Phase | Status |
 |---|---|
 | Data collection (ingestion notebooks) | ✅ Complete |
-| Dimension building - `DimDate` & `DimTime` (SQL) | ✅ Complete |
-| Data profiling & cleaning | ✅ Complete |
-| Dimension building - `Dim_Station` & `Dim_Train_Service` | ✅ Complete
+| Data profiling and cleaning | ✅ Complete |
+| Dimensions and fact table building | ✅ Complete |
 | `infrabel_punctuality` package | 🔄 Mostly complete |
-| Fact Table building | 🔄 · 03-03 `Fact_Punctuality` in progress |
-| SQL Server loading | ⏳ Pending |
+| SQL Server loading | 🔄 · `04_01_loading_dimensions_to_sql` in progress  |
 | Power BI dashboards | ⏳ Pending |
 
 ---
@@ -101,13 +99,15 @@ The new weighted metrics are computed in SQL rather than Python to avoid memory 
 
 | Source | Dataset | Role |
 |---|---|---|
-| Infrabel Open Data | `punctuality` | Fact table (~45 million rows, 22 columns) |
-| Infrabel Open Data | `operational_pts_railway` | Station dimension (base) |
-| Statbel | `municipalities` | Administrative entities (communes, provinces, regions) |
+| Infrabel Open Data | `punctuality_raw_MMyyyy` (24 files) | Builds `Fact_Punctuality` (~45 million rows) and `Dim_Train_Service` |
+| Infrabel Open Data | `operational_pts_railway` | Builds `Dim_Station` |
+| Statbel | `municipalities` | Enriches `Dim_Station` |
+| Statbel | `population` | Enriches `Dim_Station` |
 | geo.be | `territorialdivisions_3812.gpkg` | Geospatial layer for Power BI maps |
-| SNCB | Passenger count PDF (October 2024) | Passenger-volume weighting by station |
+| SNCB | Passenger count PDF (October 2024) | Enriches `Fact_Punctuality` |
 
-**Data availability: The raw datasets are not included in this repository due to size constraints.**
+**Data Availability: The raw datasets are not included in this repository due to size constraints.**
+However, the **SNCB passenger count PDF** is explicitly included to ensure project reproducibility, as its original commercial URL is subject to change and lacks the stability of an official Open Data portal.
 
 ---
 
@@ -161,8 +161,8 @@ H --> I
 | 02-06 | *Profiling & Enrichment - SNCB Passengers* | ✅ |
 | 03-01 | *Building Dimension - Station* | ✅ |
 | 03-02 | *Building Dimension - Train Service* | ✅ |
-| 03-03 | *Building Fact Table - Punctuality* | 🔄 |
-| 04-01 | *Loading Dimensions to SQL Server* | ⏳ |
+| 03-03 | *Building Fact Table - Punctuality* | ✅ |
+| 04-01 | *Loading Dimensions to SQL Server* | 🔄 |
 | 04-02 | *Loading Fact Table to SQL Server* | ⏳ |
 
 ---
