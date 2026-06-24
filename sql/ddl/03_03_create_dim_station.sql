@@ -21,7 +21,7 @@ BEGIN
 		Provincies NVARCHAR(60),
 		REFNIS_Region INT,
 		Regions NVARCHAR(60),
-		Geweesten NVARCHAR(60),
+		Gewesten NVARCHAR(60),
 		Population_Density_Category NVARCHAR(30),
 		lon DECIMAL(9,6),
 		lat DECIMAL(9,6),

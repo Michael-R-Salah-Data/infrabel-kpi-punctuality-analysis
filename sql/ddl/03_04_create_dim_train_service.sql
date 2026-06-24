@@ -2,7 +2,7 @@
 
 -- SK_Train_Service is loaded directly from the Dim_Train_Service pandas DataFrame
 
-IF OBJECT_ID('dim.Dim_Station', N'U') IS NULL
+IF OBJECT_ID('dim.Dim_Train_Service', N'U') IS NULL
 BEGIN
 	CREATE TABLE dim.Dim_Train_Service(
 		SK_Train_Service INT NOT NULL,
