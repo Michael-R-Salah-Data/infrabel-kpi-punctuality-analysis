@@ -38,7 +38,7 @@ Results are analyzed by date, time of day, station, and train service, and visua
 | Data collection (ingestion notebooks) | ✅ Complete |
 | Data profiling and cleaning | ✅ Complete |
 | Dimensions and fact table building | ✅ Complete |
-| `infrabel_punctuality` package | 🔄 Mostly complete |
+| `infrabel_punctuality` package | ✅ Complete |
 | SQL Server loading | 🔄 · `04_01_loading_dimensions_to_sql` in progress  |
 | Power BI dashboards | ⏳ Pending |
 
@@ -77,9 +77,12 @@ To install the local data pipeline package, run:
 pip install -e .
 ```
 
-The ingestion scripts are intended to be run manually and are not scheduled, as the goal of this project is to demonstrate data engineering practices rather than maintain a production pipeline.
+The ingestion scripts are intended to be run manually and are not scheduled.
 
 The new weighted metrics are computed in SQL rather than Python to avoid memory errors on the ~45-million-row fact table.
+
+Optional:
+Set SQL_SERVER if your SQL Server instance is not accessible through localhost.
 
 ---
 
