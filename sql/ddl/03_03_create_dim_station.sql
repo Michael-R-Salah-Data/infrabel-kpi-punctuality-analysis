@@ -7,7 +7,7 @@
 IF OBJECT_ID('dim.Dim_Station', N'U') IS NULL
 BEGIN
 	CREATE TABLE dim.Dim_Station (
-		SK_STATION INT NOT NULL,
+		SK_Station INT NOT NULL,
 		Ptcar_ID INT UNIQUE NOT NULL,
 		Station_Name_French NVARCHAR(60) NOT NULL,
 		Station_Name_Dutch NVARCHAR(60) NOT NULL,
@@ -25,7 +25,7 @@ BEGIN
 		Population_Density_Category NVARCHAR(30),
 		lon DECIMAL(9,6),
 		lat DECIMAL(9,6),
-		CONSTRAINT PK_Dim_Station PRIMARY KEY (SK_STATION),
+		CONSTRAINT PK_Dim_Station PRIMARY KEY (SK_Station),
 		CONSTRAINT UK_Ptac_ID UNIQUE (Ptcar_ID),
 		CONSTRAINT CK_lon CHECK (lon BETWEEN -180 AND 180),
 		CONSTRAINT CK_lat CHECK (lat BETWEEN -90 AND 90)
