@@ -213,3 +213,6 @@ data/**/*
 !data/**/
 !data/**/.gitkeep
 !data/**/voyageurs-montes-2024-def-1.pdf
+
+#Visual Studio
+.vs/
