@@ -167,3 +167,57 @@ def full_load_to_sql_server(
             chunksize=chunksize
             )
 
+
+
+
+def full_load_large_to_sql_server(
+                    engine, 
+                    dataframe, 
+                    table_name, 
+                    schema="dbo",
+                    chunksize=50000,
+                    dataframe_chunksize=5000000
+                    ):
+
+    with engine.begin() as conn:
+        conn.execute(
+            text(f"TRUNCATE TABLE {schema}.{table_name}")
+        )
+    
+        total_rows = len(dataframe)
+        total_chunks = (total_rows + dataframe_chunksize -1) // dataframe_chunksize
+
+        progress = tqdm(range(0, total_rows, dataframe_chunksize), 
+                              total=total_chunks,
+                              desc="Loading chunks"
+        )
+
+        for chunk_num, start_idx in enumerate(progress, start=1):
+            chunk_df = dataframe.iloc[start_idx : start_idx + dataframe_chunksize]
+        
+            start = time.perf_counter()
+
+            chunk_df.to_sql(
+                name=table_name, 
+                con=conn, 
+                if_exists="append", 
+                index=False, 
+                schema=schema,
+                chunksize=chunksize
+                )      
+            
+            elapsed = time.perf_counter() - start
+
+            rows_per_sec = len(chunk_df) / elapsed
+            rows_per_hour = rows_per_sec * 3600
+
+            print(
+                f"Chunk : {chunk_num}/{total_chunks} - {len(chunk_df):,} rows\n"
+                f"Time  : {elapsed:.2f} s\n"
+                f"Speed : {rows_per_sec:,.0f} rows/s\n"
+                f"        {rows_per_hour/1000000:.2f} million rows/hour"
+            )
+
+            del chunk_df
+            gc.collect()
+       
