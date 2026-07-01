@@ -16,8 +16,8 @@ CREATE TABLE dim.Dim_Date (
     Quarter INT NOT NULL,
     QuarterName NVARCHAR(20) NOT NULL,
     WeekOfYear INT NOT NULL,
-    IsWeekend BIT NOT NULL,
-    IsHoliday BIT NOT NULL,
+    Is_Weekend BIT NOT NULL,
+    Is_Holiday BIT NOT NULL,
     CONSTRAINT PK_Date PRIMARY KEY (DateID)
 );
 
@@ -50,8 +50,8 @@ BEGIN
 		Quarter,
 		QuarterName,
 		WeekOfYear,
-		IsWeekend,
-		IsHoliday
+		Is_Weekend,
+		Is_Holiday
     )
     VALUES (
         CONVERT(INT, FORMAT(@StartDate, 'yyyyMMdd')), 

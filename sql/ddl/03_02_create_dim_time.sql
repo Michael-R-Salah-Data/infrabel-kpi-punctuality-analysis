@@ -9,7 +9,7 @@ CREATE TABLE dim.Dim_Time (
     Minute INT NOT NULL,     
     Second INT NOT NULL,                
     TimePeriod NVARCHAR(30) NOT NULL,   
-    IsPeakHour BIT NOT NULL,            
+    Is_PeakHour BIT NOT NULL,            
     CONSTRAINT PK_Time PRIMARY KEY (TimeKey)
 );
 
@@ -38,7 +38,7 @@ BEGIN
         WHILE @Second < 60
         BEGIN
 
-            INSERT INTO dim.Dim_Time(TimeKey, FullTime, [Hour], [Minute], [Second], TimePeriod, IsPeakHour)
+            INSERT INTO dim.Dim_Time(TimeKey, FullTime, [Hour], [Minute], [Second], TimePeriod, Is_PeakHour)
             VALUES (
                 @TimeKey,                                       
                 TIMEFROMPARTS(@Hour, @Minute, @Second, 0, 0),   
