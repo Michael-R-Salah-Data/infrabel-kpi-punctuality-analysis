@@ -168,8 +168,6 @@ def full_load_to_sql_server(
             )
 
 
-
-
 def full_load_large_to_sql_server(
                     engine, 
                     dataframe, 
@@ -178,6 +176,39 @@ def full_load_large_to_sql_server(
                     chunksize=50000,
                     dataframe_chunksize=5000000
                     ):
+    """
+        Connects to a SQL Server database via a SQLAlchemy engine and loads a large pandas DataFrame 
+            into a predefeined table in this database.
+        It is designed for large DataFrames that cannot be safely handled in a single to_sql() call: the 
+            DataFrame is first split into outer chunks (dataframe_chunksize rows each), which are 
+            loaded one at a time and released from memory (gc.collect()) before the next one is 
+            processed. Within each outer chunk, to_sql() itself splits the insert into smaller 
+            chunksize-row batches.
+        The loading is always a full load: a TRUNCATE TABLE SQL instruction is executed before the load. 
+            All pre-existing rows are deleted and replaced by the loaded rows.
+        A progress bar (tqdm) tracks the outer chunk loop, and a summary (elapsed time, rows/s, 
+            million rows/hour) is printed after each outer chunk.
+
+        Warning: This function is designed to load the DataFrame into an existing SQL table, with predefined 
+            column names and types. The DataFrame column names and dtypes must match the SQL table 
+            column names and types. 
+
+        Args:
+            engine (Engine): SQLAlchemy engine configured for a specific database in SQL Server.
+            dataframe (DataFrame): pandas DataFrame to load.
+            table_name (str): target SQL table name.
+            schema (str, optional): SQL Server schema containing the target table. Default: "dbo".
+            chunksize (int, optional): number of rows per to_sql() insert batch. Default: 50000.
+            dataframe_chunksize (int, optional): number of rows per outer DataFrame chunk, used to 
+                limit memory usage when loading very large DataFrames. Default: 5000000.
+
+        Returns:
+            None
+
+        Side Effects:
+            Truncates the target SQL table, then loads the DataFrame content into it.
+            Prints a progress bar and per-chunk timing statistics to stdout.
+    """
 
     with engine.begin() as conn:
         conn.execute(
