@@ -39,7 +39,8 @@ Results are analyzed by date, time of day, station, and train service, and visua
 | Data profiling and cleaning | ✅ Complete |
 | Dimensions and fact table building | ✅ Complete |
 | `infrabel_punctuality` package | ✅ Complete |
-| SQL Server loading | 🔄 · `04_01_loading_dimensions_to_sql` in progress  |
+| SQL Server loading | ✅ Complete |
+| Data warehouse building | 🔄 · `05_add_foreign_keys` in progress |
 | Power BI dashboards | ⏳ Pending |
 
 ---
@@ -165,8 +166,8 @@ H --> I
 | 03-01 | *Building Dimension - Station* | ✅ |
 | 03-02 | *Building Dimension - Train Service* | ✅ |
 | 03-03 | *Building Fact Table - Punctuality* | ✅ |
-| 04-01 | *Loading Dimensions to SQL Server* | 🔄 |
-| 04-02 | *Loading Fact Table to SQL Server* | ⏳ |
+| 04-01 | *Loading Dimensions to SQL Server* | ✅ |
+| 04-02 | *Loading Fact Table to SQL Server* | ✅ |
 
 ---
 
