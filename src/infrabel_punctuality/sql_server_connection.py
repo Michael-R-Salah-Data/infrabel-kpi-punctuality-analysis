@@ -158,8 +158,6 @@ def full_load_to_sql_server(
         conn.execute(
             text(f"TRUNCATE TABLE {schema}.{table_name}")
         )
-
-    with engine.connect() as conn:
         dataframe.to_sql(
             name=table_name, 
             con=conn, 
@@ -168,3 +166,4 @@ def full_load_to_sql_server(
             schema=schema,
             chunksize=chunksize
             )
+
