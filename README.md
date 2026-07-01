@@ -36,10 +36,11 @@ Results are analyzed by date, time of day, station, and train service, and visua
 | Phase | Status |
 |---|---|
 | Data collection (ingestion notebooks) | ✅ Complete |
-| Data profiling and cleaning | ✅ Complete |
+| Data profiling and cleaning | 🔄 · `02_08_profiling_and_cleaning_benchmark` in progress |
 | Dimensions and fact table building | ✅ Complete |
 | `infrabel_punctuality` package | ✅ Complete |
-| SQL Server loading | 🔄 · `04_01_loading_dimensions_to_sql` in progress  |
+| SQL Server loading | ⏳ · `04_03_loading_benchmark_to_sql_server` pending |
+| Data warehouse building | 🔄 · `06_views_delay.sql` in progress |
 | Power BI dashboards | ⏳ Pending |
 
 ---
@@ -156,17 +157,20 @@ H --> I
 | 01-01 | *Data Collection - Infrabel* | ✅ |
 | 01-02 | *Data Collection - Statbel and Geo.be* | ✅ |
 | 01-03 | *Data Collection - SNCB* | ✅ |
-| 02-01 | *Profiling & Cleaning - Stations* | ✅ |
-| 02-02 | *Profiling & Cleaning - Municipalities* | ✅ |
-| 02-03 | *Profiling & Cleaning - Geodata* | ✅ |
-| 02-04 | *Profiling & Cleaning - Punctuality* | ✅ |
+| 02-01 | *Profiling and Cleaning - Stations* | ✅ |
+| 02-02 | *Profiling and Cleaning - Municipalities* | ✅ |
+| 02-03 | *Profiling and Cleaning - Geodata* | ✅ |
+| 02-04 | *Profiling and Cleaning - Punctuality* | ✅ |
 | 02-05 | *Handling Missing Values in the RELATION_DIRECTION column - Punctuality* | ✅ |
-| 02-06 | *Profiling & Enrichment - SNCB Passengers* | ✅ |
+| 02-06 | *Profiling and Enrichment - SNCB Passengers* | ✅ |
+| 02-07 | *Profiling and Cleaning - Population* | ✅ |
+| 02-08 | *Profiling and Cleaning - Benchmark* | 🔄 |
 | 03-01 | *Building Dimension - Station* | ✅ |
 | 03-02 | *Building Dimension - Train Service* | ✅ |
 | 03-03 | *Building Fact Table - Punctuality* | ✅ |
-| 04-01 | *Loading Dimensions to SQL Server* | 🔄 |
-| 04-02 | *Loading Fact Table to SQL Server* | ⏳ |
+| 04-01 | *Loading Dimensions to SQL Server* | ✅ |
+| 04-02 | *Loading Fact Table to SQL Server* | ✅ |
+| 04-03 | *Loading Benchmark to SQL Server* | ⏳ |
 
 ---
 
