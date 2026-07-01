@@ -127,7 +127,8 @@ def download_dataset(
         'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7'
     })
 
-    print(f"Starting downlod : {dataset_name}\n")
+    print(f" \n"
+          f"Starting download : {dataset_name}")
 
     try: 
         # If a referer is provided, request a session control
