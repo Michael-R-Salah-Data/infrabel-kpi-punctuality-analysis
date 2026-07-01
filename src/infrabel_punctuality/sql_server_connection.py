@@ -1,8 +1,11 @@
 import logging
+import gc
+import time
 
 import pyodbc
 from sqlalchemy import create_engine, URL, text
 from sqlalchemy.exc import OperationalError
+from tqdm import tqdm
 
 
 def select_sql_driver():
@@ -77,7 +80,7 @@ def get_engine(
         query=query
     )
     
-    return create_engine(connection_url) 
+    return create_engine(connection_url, fast_executemany=True) 
 
 
 def test_connection(engine):
@@ -165,6 +168,3 @@ def full_load_to_sql_server(
             schema=schema,
             chunksize=chunksize
             )
-
-    
-
