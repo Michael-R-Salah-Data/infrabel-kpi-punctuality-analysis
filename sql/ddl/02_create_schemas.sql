@@ -32,3 +32,13 @@ END
 GO
 
 
+IF NOT EXISTS (
+    SELECT 1
+    FROM sys.schemas
+    WHERE name = N'vw'
+)
+BEGIN
+    EXEC('CREATE SCHEMA vw')
+END
+GO
+
