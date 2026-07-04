@@ -36,11 +36,11 @@ Results are analyzed by date, time of day, station, and train service, and visua
 | Phase | Status |
 |---|---|
 | Data collection (ingestion notebooks) | ✅ Complete |
-| Data profiling and cleaning | 🔄 · `02_08_profiling_and_cleaning_benchmark` in progress |
+| Data profiling and cleaning | ✅ Complete |
 | Dimensions and fact table building | ✅ Complete |
 | `infrabel_punctuality` package | ✅ Complete |
-| SQL Server loading | ⏳ · `04_03_loading_benchmark_to_sql_server` pending |
-| Data warehouse building | 🔄 · `06_views_delay.sql` in progress |
+| SQL Server loading | ✅ Complete |
+| Data warehouse building | ✅ Complete |
 | Power BI dashboards | ⏳ Pending |
 
 ---
@@ -164,13 +164,13 @@ H --> I
 | 02-05 | *Handling Missing Values in the RELATION_DIRECTION column - Punctuality* | ✅ |
 | 02-06 | *Profiling and Enrichment - SNCB Passengers* | ✅ |
 | 02-07 | *Profiling and Cleaning - Population* | ✅ |
-| 02-08 | *Profiling and Cleaning - Benchmark* | 🔄 |
+| 02-08 | *Profiling and Cleaning - Benchmark* | ✅ |
 | 03-01 | *Building Dimension - Station* | ✅ |
 | 03-02 | *Building Dimension - Train Service* | ✅ |
 | 03-03 | *Building Fact Table - Punctuality* | ✅ |
 | 04-01 | *Loading Dimensions to SQL Server* | ✅ |
 | 04-02 | *Loading Fact Table to SQL Server* | ✅ |
-| 04-03 | *Loading Benchmark to SQL Server* | ⏳ |
+| 04-03 | *Loading Benchmark to SQL Server* | ✅ |
 
 ---
 
