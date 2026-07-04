@@ -1,5 +1,6 @@
 -- Execute this script within the [infrabel_punctuality_dwh] database
 
+
 IF OBJECT_ID('fact.Fact_Punctuality', N'U') IS NULL
 BEGIN
 	CREATE TABLE fact.Fact_Punctuality (
@@ -25,9 +26,9 @@ BEGIN
 		Passenger_Count_Avg INT,  
 		Line_No_Arr NVARCHAR(10), 
 		Line_No_Dep NVARCHAR(10),    
-		Planned_Date_Arr DATETIME2,  
-		Real_Date_Arr DATETIME2,  
-		Planned_Date_Dep DATETIME2,  
-		Real_Date_Dep DATETIME2
+		Planned_Date_Arr DATE,  
+		Real_Date_Arr DATE,  
+		Planned_Date_Dep DATE,  
+		Real_Date_Dep DATE
 	)
 END;
