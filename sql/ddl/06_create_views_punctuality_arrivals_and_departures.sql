@@ -30,7 +30,8 @@ BEGIN
 					Is_6Min_Late_Arr,
 					Is_5Min_Late_Arr,
 					Has_Passenger_Count,
-					Passenger_Count_Avg
+					Passenger_Count_Avg,
+					Passenger_Delay_Arr
 			FROM fact.Fact_Punctuality
 			WHERE Planned_Time_Arr IS NOT NULL
 				AND Real_Time_Arr IS NOT NULL'
@@ -55,7 +56,8 @@ BEGIN
 					Is_6Min_Late_Dep,
 					Is_5Min_Late_Dep,
 					Has_Passenger_Count,
-					Passenger_Count_Avg
+					Passenger_Count_Avg,
+					Passenger_Delay_Dep
 			FROM fact.Fact_Punctuality
 			WHERE Planned_Time_Dep IS NOT NULL
 				AND Real_Time_Dep IS NOT NULL'
