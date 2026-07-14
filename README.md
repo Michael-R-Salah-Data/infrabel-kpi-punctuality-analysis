@@ -41,7 +41,7 @@ Results are analyzed by date, time of day, station, and train service, and visua
 | `infrabel_punctuality` package | ✅ Complete |
 | SQL Server loading | ✅ Complete |
 | Data warehouse building | ✅ Complete |
-| Power BI dashboards | ⏳ Pending |
+| Power BI dashboards | 🔄 In Progress |
 
 ---
 
@@ -107,7 +107,7 @@ Set SQL_SERVER if your SQL Server instance is not accessible through localhost.
 | Infrabel Open Data | `operational_pts_railway` | Builds `Dim_Station` |
 | Statbel | `municipalities` | Enriches `Dim_Station` |
 | Statbel | `population` | Enriches `Dim_Station` |
-| geo.be | `territorialdivisions_3812.gpkg` | Geospatial layer for Power BI maps |
+| geo.be | `territorialdivisions_3812.gpkg` | Geospatial layer for the spatial join between `operational_pts_railway` and `municipalities` in order to create `Dim_Station`  |
 | SNCB | Passenger count PDF (October 2024) | Enriches `Fact_Punctuality` |
 
 **Data Availability: The raw datasets are not included in this repository due to size constraints.**
