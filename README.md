@@ -49,21 +49,16 @@ Results are analyzed by date, time of day, station, and train service, and visua
 
 > ⚠️ **WARNING: Before cloning this repository, please read the following.**
 >
-> - **Disk space:** The current state of the repository already requires 
->   approximately **10 GB** of disk space (raw data + partial silver layer).
->   Once the full pipeline is complete (silver layer, gold layer, and SQL Server
->   data warehouse), total disk usage is estimated to exceed **20 GB**.
+> - **Disk space:** This repository requires approximately **45 GB** of disk space 
+>   (raw data, silver and gold layers, and the SQL Server data warehouse).
 >
 > - **Execution time:** Running all notebooks end-to-end takes several hours
->   on a standard machine (16 GB RAM, SSD). The ingestion notebook alone
->   (`01_01`) takes approximately **45 minutes**. Cleaning and profiling
->   notebooks for the punctuality dataset (`02_04`, `02_05`) take **15–20**
->   **minutes each**. Fact table construction and SQL Server loading will add
->   further significant processing time.
+>   on a standard machine (16 GB RAM, SSD). The first ingestion notebook alone
+>   takes approximately **45 minutes**. 
 >
-> - **SQL processing:** Derived column calculation (alternative punctuality
->   metrics) and constraint creation in SQL Server are expected to add
->   **4 to 6 hours** of additional processing time. 
+> - **SQL processing:** Derived column calculations (alternative punctuality
+>   metric), constraint creation, and other DML scripts in SQL Server add approximately 
+>   **1 to 2 hours** of processing time. 
 
 ### Prerequisites
 
@@ -126,11 +121,11 @@ B[Data Collection<br><br>Jupyter Notebooks<br>Custom Python package]
 
 C[Raw Data<br>]
 
-D[Data Cleaning & Transformation<br><br>Jupyter Notebooks<br>Custom Python package]
+D[Data Cleaning &<br>Transformation<br><br>Jupyter Notebooks<br>Custom Python package]
 
 E[Intermediate Data<br>]
 
-F[Feature Engineering & Geospatial Enrichment<br><br>Jupyter Notebooks<br>Custom Python package]
+F[Feature Engineering &<br>Geospatial Enrichment<br><br>Jupyter Notebooks<br>Custom Python package]
 
 G[Processed Data<br>]
 
