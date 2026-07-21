@@ -8,24 +8,23 @@
 
 ## Overview
 
-This project analyzes punctuality trends across the Belgian railway network using Infrabel's open data.
+This project evaluates the accuracy of official punctuality metric across the Belgian railway network using Infrabel's open data.
 It covers the 2024-2025 period and processes ~45 million rows of raw punctuality data.
 
-Infrabel publishes monthly national punctuality rates consistently at around 90% (i.e. monthly on-time rates ranging from 84% to 94% across 2024-2025). 
+Infrabel publishes monthly or yearly national punctuality rates consistently around 90% (i.e. monthly on-time rates ranging from 84% to 94% across 2024-2025). 
 This project stems from the observation that a **gap** exists **between Infrabel's aggregate national figures and public perception of railway punctuality**, investigated through two hypotheses:
 
-- **Hypothesis 1 — Passenger weighting:** Trains tend to run more punctually on weekends and during the summer, when passenger volumes are lower. Conversely, delays are more frequent on weekdays and during peak hours - precisely when the largest share of passengers is affected. Delays at lightly used stations carry the same weight as delays at major network hubs, such as Bruxelles-Central or Antwerp-Centraal. As a result, Infrabel's aggregate monthly figures may mask the experience of the majority of passengers.
+- **Hypothesis 1 — Network disparity:** Punctuality varies significantly across train services and among stations. A regular passenger on a heavily delayed route, or one whose local station has a poor punctuality record, will have a fundamentally different experience from the national average.
 
-- **Hypothesis 2 — Route disparity:** Punctuality varies significantly across train services. A regular passenger on a heavily delayed route will have a fundamentally different experience from the national average.
+- **Hypothesis 2 — Passenger weighting:** Trains tend to run more punctually on weekends and during off-peak hours, when passenger volumes are lower. Conversely, delays are more frequent on weekdays and during peak hours - precisely when the largest share of passengers is affected. Delays at lightly used stations carry the same weight as delays at major network hubs, such as Bruxelles-Central or Antwerp-Centraal. As a result, Infrabel's aggregate monthly or yearly figures may mask the experience of the majority of passengers.
 
-To test these hypotheses, the project builds a **SQL Server star schema data warehouse** and proposes two **alternative metrics**:
+To test these hypotheses, the project builds a **SQL Server star schema data warehouse** and proposes an **alternative metric**:
 
-- **Metric 1** — A train is considered late if it arrives more than **5 minutes**
-  after its scheduled arrival time (vs. 6 minutes in the official Infrabel measure).
-- **Metric 2** — The same threshold, **weighted by average passenger volume** per
-  station, sourced from SNCB ridership data.
+- **Passenger Metric (≥5 Minutes Late)** — A train is considered late if it arrives more than 
+**5 minutes** after its scheduled arrival time (vs. 6 minutes in the official Infrabel measure).
+Then, its delay is **weighted by average passenger volume** per station, sourced from SNCB ridership data.
 
-Results are analyzed by date, time of day, station, and train service, and visualized in **Power BI dashboards with geospatial layers**.
+Results are analyzed by station, train service, day of week, and time of day, and visualized in **Power BI dashboards with geospatial layers**.
 
 ---
 
