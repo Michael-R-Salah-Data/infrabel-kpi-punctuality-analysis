@@ -1,0 +1,112 @@
+//-------------------------------
+// 1. PUNCTUALITY RATE
+//-------------------------------
+
+Infrabel_Punctuality_Rate_2025 = 
+CALCULATE(
+    DIVIDE(
+        SUM('ref Infrabel_Benchmark'[Punctuality_Pct]),
+        COUNTROWS('ref Infrabel_Benchmark')
+    ),
+    'ref Infrabel_Benchmark'[Year] = 2025
+) / 100
+
+//-------------------------------
+// 2. DELAY RATES
+//-------------------------------
+
+6MinLate_Ratio = DIVIDE(                 
+         SUM('vw Punctuality_Arrivals'[Is_6Min_Late_Integer]), 
+         COUNTROWS('vw Punctuality_Arrivals')
+         )
+
+5MinLate_Ratio = DIVIDE(
+    SUM('vw Punctuality_Arrivals'[Is_5Min_Late_Integer]),
+    COUNTROWS('vw Punctuality_Arrivals'))
+
+Passenger_5MinLate_Rate = 
+VAR PassengerSum =
+    SUM('vw Punctuality_Arrivals'[Passenger_Count])
+VAR LatePassengerSum =
+    CALCULATE(
+        SUM('vw Punctuality_Arrivals'[Passenger_Count]),
+        'vw Punctuality_Arrivals'[Is_5Min_Late_Binary] = TRUE
+    )
+RETURN
+DIVIDE(LatePassengerSum, PassengerSum, 0)
+
+//-------------------------------
+// 3. COLOR MEASURES
+//-------------------------------
+
+Colors%6MinLate = 
+VAR p = [6MinLate_Ratio]
+RETURN
+SWITCH(
+    TRUE(),
+    p > 0.1667, "Black",
+    p > 0.125, "Red",
+    p > 0.10, "Orange",
+    p >= 0.083, "Blue",
+    p < 0.083, "Green",
+    "Gray"
+)
+
+Colors%Passenger5MinLate = 
+VAR p = [Passenger_5MinLate_Rate]
+RETURN
+SWITCH(
+    TRUE(),
+    p > 0.1667, "Black",
+    p > 0.125, "Red",
+    p > 0.10, "Orange",
+    p >= 0.083, "Blue",
+    p < 0.083, "Green",
+    "Gray"
+)
+
+//------------------------------------
+// 4. PUNCTUALITY REFERENCE MEASURES
+//------------------------------------
+
+Infrabel_Punctuality_Reference_2025 = 
+ CALCULATE(
+    [Infrabel_Punctuality_Rate_2025],
+    ALLEXCEPT('dim Dim_Date', 'dim Dim_Date'[Year]),
+    ALL('dim Dim_Time'), 
+    ALL('dim Dim_Station')
+ )
+
+ Passenger_Punctuality_Reference_for_Temporal_Breakdown = 
+ CALCULATE(
+    1 - [Passenger_Delay_Reference_for_Temporal_Breakdown]
+ )
+
+//-------------------------------
+// 5. DELAY REFERENCE MEASURES
+//-------------------------------
+
+6MinLate_Reference_for_Services = 
+ CALCULATE(
+    [6MinLate_Ratio],
+    ALLEXCEPT('dim Dim_Train_Service', 'dim Dim_Train_Service'[Direction_Is_Inferred], 'dim Dim_Train_Service'[Is_National], 'dim Dim_Train_Service'[Service_Type])
+ )
+
+6MinLate_Reference_for_Stations = 
+CALCULATE(
+   [6MinLate_Ratio],
+   ALLEXCEPT('dim Dim_Train_Service', 'dim Dim_Train_Service'[Is_National], 'dim Dim_Train_Service'[Direction_Is_Inferred]), 
+   ALL('dim Dim_Station')
+)
+
+Passenger_Delay_Reference_for_Temporal_Breakdown = 
+CALCULATE(
+   [Passenger_5MinLate_Rate],
+   ALLEXCEPT('dim Dim_Date', 'dim Dim_Date'[Year]),
+   ALL('dim Dim_Time')
+)
+
+Infrabel_Delay_Reference_2025 = 
+CALCULATE(
+   1 - [Infrabel_Punctuality_Reference_2025]
+)
