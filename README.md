@@ -26,21 +26,34 @@ Then, its delay is **weighted by average passenger volume** per station, sourced
 
 Results are analyzed by station, train service, day of week, and time of day, and visualized in **Power BI dashboards with geospatial layers**.
 
+Here is a quick preview of the results through a video demo and screenshots of the dashboards:
+
+
+- Watch the [Dashboard Demo (Dashboard 5 of 6)](reports/videos/combining_passenger_metric_and_geographic_disparities_demo.mp4)
+
 ---
 
-## Project Status
+### Network Disparity (Dashboard 1 of 6)
 
-🚧 **Originally developed as a data analyst training capstone project, this project is being refactored to meet professional data standards.**
+![Delay Intensity Map](reports/dashboards/01_delay%20intensity%20map.png)
 
-| Phase | Status |
+---
+
+### Passenger Weighted Metric (Dashboard 4 of 6)
+
+![Infrabel vs Passenger Metrics - Temporal Breakdown](reports/dashboards/04_Infrabel%20vs%20Passenger%20metrics%20-%20temporal%20breakdown.png)
+
+
+---
+
+## Tech Stack
+
+| Layer | Tools |
 |---|---|
-| Data collection (ingestion notebooks) | ✅ Complete |
-| Data profiling and cleaning | ✅ Complete |
-| Dimensions and fact table building | ✅ Complete |
-| `infrabel_punctuality` package | ✅ Complete |
-| SQL Server loading | ✅ Complete |
-| Data warehouse building | ✅ Complete |
-| Power BI dashboards | 🔄 In Progress |
+| Local ETL Pipeline | Jupyter Notebooks · Python (pandas · GeoPandas · SQLAlchemy · camelot · custom `infrabel_punctuality` package) |
+| Data Warehouse | SQL Server · T-SQL · star schema |
+| Reporting & Visualization | Power BI · DAX · geospatial maps |
+| Environment | VSCode · JupyterLab · Git/GitHub · Windows 11 |
 
 ---
 
@@ -62,7 +75,7 @@ Results are analyzed by station, train service, day of week, and time of day, an
 ### Prerequisites
 
 - Python 3.12
-- SQL Server 
+- SQL Server
 
 ### Installation
 
@@ -78,18 +91,6 @@ The new weighted metrics are computed in SQL rather than Python to avoid memory 
 
 Optional:
 Set SQL_SERVER if your SQL Server instance is not accessible through localhost.
-
----
-
-## Tech Stack
-
-| Layer | Tools |
-|---|---|
-| Data Collection & Transformation | Python · pandas · GeoPandas · SQLAlchemy · camelot |
-| Orchestration | Jupyter Notebooks · custom `infrabel_punctuality` package |
-| Data Warehouse | SQL Server · T-SQL · star schema |
-| Visualization | Power BI · DAX · geospatial maps |
-| Environment | VSCode · JupyterLab · Git/GitHub · Windows 11 |
 
 ---
 
@@ -144,39 +145,9 @@ H --> I
 
 ---
 
-## Notebooks
-
-| # | Notebook | Status |
-|---|---|---|
-| 01-01 | *Data Collection - Infrabel* | ✅ |
-| 01-02 | *Data Collection - Statbel and Geo.be* | ✅ |
-| 01-03 | *Data Collection - SNCB* | ✅ |
-| 02-01 | *Profiling and Cleaning - Stations* | ✅ |
-| 02-02 | *Profiling and Cleaning - Municipalities* | ✅ |
-| 02-03 | *Profiling and Cleaning - Geodata* | ✅ |
-| 02-04 | *Profiling and Cleaning - Punctuality* | ✅ |
-| 02-05 | *Handling Missing Values in the RELATION_DIRECTION column - Punctuality* | ✅ |
-| 02-06 | *Profiling and Enrichment - SNCB Passengers* | ✅ |
-| 02-07 | *Profiling and Cleaning - Population* | ✅ |
-| 02-08 | *Profiling and Cleaning - Benchmark* | ✅ |
-| 03-01 | *Building Dimension - Station* | ✅ |
-| 03-02 | *Building Dimension - Train Service* | ✅ |
-| 03-03 | *Building Fact Table - Punctuality* | ✅ |
-| 04-01 | *Loading Dimensions to SQL Server* | ✅ |
-| 04-02 | *Loading Fact Table to SQL Server* | ✅ |
-| 04-03 | *Loading Benchmark to SQL Server* | ✅ |
-
----
-
 ## Star-schema Data Warehouse
 
-```mermaid
-erDiagram
-    FactPunctuality }o--|| DimStation : ""
-    FactPunctuality }o--|| DimTrainService : ""
-    FactPunctuality }o--|| DimDate : ""
-    FactPunctuality }o--|| DimTime : ""
-```
+![Star Schema Data Warehouse Diagram](reports/docs/infrabel_punctuality_dwh_sql_server_diagram.png)
 
 
 
