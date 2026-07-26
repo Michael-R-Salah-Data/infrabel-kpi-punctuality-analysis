@@ -29,7 +29,11 @@ Results are analyzed by station, train service, day of week, and time of day, an
 Here is a quick preview of the results through a video demo and screenshots of the dashboards:
 
 
-- Watch the [Dashboard Demo (Dashboard 5 of 6)](reports/videos/combining_passenger_metric_and_geographic_disparities_demo.mp4)
+- Watch the [Dashboard Demo (Dashboard 5 of 6)]
+
+https://github.com/user-attachments/assets/0707b064-ebc7-4943-9f70-7977bdeade12
+
+
 
 ---
 
